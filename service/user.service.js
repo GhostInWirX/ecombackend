@@ -69,3 +69,15 @@ const getUserProfileByToken=async(token)=>{
         throw new Error(error.message)
     }
 }
+
+const getAllUsers=async ()=>{
+    try{
+        const users=await User.find();
+        return users;
+    }
+    catch(error){
+        throw new Error(error.message)
+    }
+};
+
+export default {CreateUser,findUserByID,findUserByEmail,getAllUsers,getUserProfileByToken}

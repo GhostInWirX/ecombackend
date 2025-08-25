@@ -10,7 +10,6 @@ const generateToken=(userID)=>{
 
 const getUserIdFromToken =(token)=>
 {
-    
     const decodedToken=jwt.verify(token,SECRET_KEY);
     return decodedToken.userID;
 }
