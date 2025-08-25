@@ -35,5 +35,5 @@ const AddressSchema=new mongoose.Schema({
         ref:"users"
     }]
 })
-const adress=mongoose.model("addresses",AddressSchema)
-export default AddressSchema
+const address=mongoose.model("addresses",AddressSchema)
+export default address

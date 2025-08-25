@@ -3,7 +3,7 @@ import mongoose from mongoose
 const orderSchema=new Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:user
+        ref:"user"
     },
     orderItems:[{
         type:mongoose.Schema.Types.ObjectId,
@@ -29,5 +29,30 @@ const orderSchema=new Schema({
             default:"Pending"
         }
     },
-    
+    totalPrice:{
+        type:Number,
+        required:true
+    },
+    totalDiscountedPrice:{
+        type:Number,
+        required:true
+    },
+    orderStatus:
+    {
+        type:String,
+        required:true,
+        default:"PENDING"
+    },
+    totalItems:{
+        type:Number,
+        required:true
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now()
+    }
 })
+
+const Order=mongoose.model('orders' ,orderSchema)
+
+export default Order
