@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-
 const SECRET_KEY="Twinkle Twinkle Littl Star"
 
 const generateToken=(userID)=>{
@@ -7,13 +6,11 @@ const generateToken=(userID)=>{
     return token;
 }
 
-
 const getUserIdFromToken =(token)=>
 {
     const decodedToken=jwt.verify(token,SECRET_KEY);
     return decodedToken.userID;
 }
-
 
 export default {generateToken,getUserIdFromToken}
 

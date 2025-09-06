@@ -23,10 +23,6 @@ const UserSchema=new mongoose.Schema({
         required:true,
         default:"CUSTOMER"
     },
-    mobile:{
-        type:String,
-        required:true
-    },
     address:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"addresses"

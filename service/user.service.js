@@ -1,10 +1,11 @@
-import User from '../models/user.model'
-import bcrypt from 'bcrpyt'
-import jwtprovider from '../config/jwtprovider'
+import User from '../models/user.model.js'
+import bcrypt from 'bcrypt'
+import jwtprovider from '../config/jwtprovider.js'
 const CreateUser = async (UserData) => {
 
     try {
         let { firstname, lastname, password, email } = UserData;
+        console.log(email,password)
         const isUserExist = await User.findOne({ email });
 
         if (isUserExist) {
