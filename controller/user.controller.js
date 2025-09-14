@@ -2,8 +2,9 @@ import userService from '../service/user.service.js'
 
 const getUserProfile=async (req , res)=>{
     try{
-        const jwt =req.headers.authorization?.split("")[1];
-
+        const authHeader =req.headers.authorization || ""
+        const jwt = authHeader.startsWith("Bearer ")?authHeader.slice(7).trim() : "";
+        
         if(!jwt)
         {
             return res.status(404).send({error:"Token Not Found"})

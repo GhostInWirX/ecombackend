@@ -28,7 +28,7 @@ const CreateUser = async (UserData) => {
 
 const findUserByID = async(userid)=>{
     try{
-        const user=await User.findById(userid).populate("address")
+        const user=await User.findById(userid)
 
         if(!user){
             throw new Error("User Not Found With The ID" + userid)
@@ -40,19 +40,21 @@ const findUserByID = async(userid)=>{
     }
 }
 
-const findUserByEmail = async(email)=>{
-    try{
-        const useremail=await User.findUserByEmail({email})
+const findUserByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ Email: email });
+    console.log("Found user:", user);
 
-        if(!useremail){
-            throw new Error("User Not Found With The Email" + useremail)
-        }
-        return useremail;
+    if (!user) {
+      throw new Error("User not found with the email: " + email);
     }
-    catch(error){
-        throw new Error(error.message)
-    }
-}
+
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 
 
 const getUserProfileByToken=async(token)=>{

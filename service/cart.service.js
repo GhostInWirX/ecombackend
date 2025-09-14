@@ -3,7 +3,8 @@ import Cart from '../models/cart.model.js'
 async function createCart(user)
 {
     try{
-        const cart=new Cart({user:user_id,
+
+        const cart=new Cart({user:user,
             cartItems: [],
             totalPrice:0,
             totalPrice:0,
@@ -11,6 +12,7 @@ async function createCart(user)
             discount:0
     })
 
+    
     const createdCart=await cart.save();
     return createdCart
     }
