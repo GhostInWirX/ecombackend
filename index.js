@@ -15,7 +15,6 @@ app.get('/',(req,res)=>{
     res.status(200).json({message:"Server Is Running"})
 })
 
-
 app.use((req,res)=>{
     res.status(404).json({message:"Server Failed"})
 })
