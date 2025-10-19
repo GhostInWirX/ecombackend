@@ -85,6 +85,13 @@ async function DeleiverOrder(orderId)
     order.orderStatus="Cancelled"
     return await order.save()
 }
+//Confirm Order
+async function ConfirmOrders(orderId){
+    const order=await findOrderById(orderId)
+    order.orderStatus="Confirmed"
+    return await order.save()
+}
+
 //Find Order By Id
 async function findOrderById(orderId)
 {
@@ -113,6 +120,7 @@ async function getAllOrders(){
     .lean()
 }
 
+
 module.exports={
     createorder,
     placeOrder,
@@ -121,7 +129,8 @@ module.exports={
     findOrderById,
     userOrderHistory,
     DeleteOrders,
-    getAllOrders
+    getAllOrders,
+    ConfirmOrders
 }
 
 
