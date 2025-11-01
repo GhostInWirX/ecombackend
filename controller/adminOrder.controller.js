@@ -8,7 +8,6 @@ const getAllOrders=async(req,res)=>{
     catch(error){
         return res.status(500).send({error:error.message})
     }
-
 }
 
 const ConfirmOrders=async(req,res)=>{
@@ -59,6 +58,12 @@ const CancelOrders =async(req,res)=>{
 
 }
 
+module.exports={
+    CancelOrders,
+    ShippedOrders
+
+   
+}
 //DeleteOrders , DeleiverOrders
 
 
