@@ -2,7 +2,9 @@
 // deleteProduct,
 
 // updateProduct,
-// getAllProducts,
-// findProductById,
 // createMultipleroduct
 
+
+
+// getAllProducts,
+// findProductById,
