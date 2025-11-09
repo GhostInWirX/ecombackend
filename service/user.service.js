@@ -6,7 +6,7 @@ const CreateUser = async (UserData) => {
     try {
         let { firstname, lastname, password, email } = UserData;
         console.log(email,password)
-        const isUserExist = await User.findOne({ email });
+        const isUserExist = await User.findOne({ Email: email });
 
         if (isUserExist) {
             throw new Error("User Already Exists With This Email ")
@@ -42,7 +42,7 @@ const findUserByID = async(userid)=>{
 
 const findUserByEmail = async (email) => {
   try {
-    const user = await User.findOne({ Email: email });
+    const user = await User.findOne({  Email: email });
     console.log("Found user:", user);
 
     if (!user) {

@@ -1,4 +1,4 @@
-import CartItems from '../service/cartitem.services';
+import CartItems from '../service/cartitem.services.js';
 
 const updateCartItem=async(req,res)=>
 {    
@@ -30,8 +30,5 @@ const RemoveCartItem=async(req,res)=>
 
 }
 
-module.exports={
-
-    updateCartItem,
-    RemoveCartItem
-}
+const cartitem = { RemoveCartItem, updateCartItem };
+export default cartitem;

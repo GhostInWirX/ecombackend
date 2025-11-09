@@ -1,6 +1,6 @@
 import userService from "../service/user.service.js"
 import jwtprovider from "../config/jwtprovider.js";
-import createCart from '../service/cart.service.js'
+import { createCart } from '../service/cart.service.js'
 import bcrypt from 'bcrypt'
 const register = async (req, res) => {
     try {

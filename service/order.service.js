@@ -1,8 +1,9 @@
-import cartitemServices from "./cartitem.services";
-import userService from "./user.service";
-import addresses from '../models/address.model.js'
+import cartitemServices from "./cartitem.services.js";
+import userService from "./user.service.js";
+import Address from '../models/address.model.js'
 import cartservice from './cart.service.js'
-import orders from '../models/order.model.js'
+import Order from '../models/order.model.js'
+import OrderItem from '../models/orderitems.model.js'
 async function createorder(shipAdress,user)
 {
 
@@ -11,28 +12,28 @@ async function createorder(shipAdress,user)
     if(shipAdress._id)
     {
         //fetching old address
-        address=await addresses.findById(shipAdress._id)
+        address=await Address.findById(shipAdress._id)
     }
     //saving New Address
     else
     {
-        address=new addresses(shipAdress);
+        address=new Address(shipAdress);
         address.user=user._id;
         await address.save()
         user.address.push(address);
         await user.save()
     }
 
-    const cart =await cartservice.findUserByID(user._id)
+    const cart =await cartservice.findUserCart(user._id)
     const orderItems=[]
-    for(const item of cart.cartitemServices )
+    for(const item of cart.cartItems )
     {
         const orderItem=new OrderItem({
             price:item.price,
             product:item.product,
             quantity:item.quantity,
             size:item.size,
-            userId:item.userId,
+            userId:item.UserId,
             discountedPrice:item.discountedPrice
         })
 
@@ -40,15 +41,14 @@ async function createorder(shipAdress,user)
         orderItems.push(createdOrderItem)
     }
 
-    const createorder=new orders ({
+    const createorder=new Order ({
         user:user._id,
         orderItems,
-        totalprice:cart.totalprice,
-        totalDiscountedprice:cart.totalDiscountedprice,
-        discount:cart.discount,
-        totalitem:cart.totalItem,
-        shipAdress:shipAdress,
-        paymentDetails:{status:"Pending"},
+        totalPrice:cart.totalPrice,
+        totalDiscountedPrice:cart.totalDiscountedPrice,
+        totalItems:cart.totalItem,
+        shippingAddress:address._id,
+        paymentDetails:{ paymentstatus:"Pending" },
         orderStatus:"PLACED"
     })
     const savedOrder=await createorder.save();
@@ -59,9 +59,9 @@ async function createorder(shipAdress,user)
 
 async function placeOrder(orderId)
 {
-    const order=await orders.findById(orderId)
+    const order=await Order.findById(orderId)
     order.orderStatus="SHIPPED"
-    order.paymentDetails.status="COMPLETED"
+    order.paymentDetails.paymentstatus="COMPLETED"
     return await order.save()
 }
 //Ship Order
@@ -75,15 +75,14 @@ async function ShipOrder(orderId)
 async function DeleiverOrder(orderId)
 {
     const order=await findOrderById(orderId)
-    order.orderStatus="Deleivery"
+    order.orderStatus="DELIVERED"
     return await order.save()
 }
 //Cancel Order
-async function DeleiverOrder(orderId)
-{
-    const order=await findOrderById(orderId)
-    order.orderStatus="Cancelled"
-    return await order.save()
+async function CancelOrders(orderId){
+    const order = await findOrderById(orderId);
+    order.orderStatus = "Cancelled";
+    return await order.save();
 }
 //Confirm Order
 async function ConfirmOrders(orderId){
@@ -95,15 +94,15 @@ async function ConfirmOrders(orderId){
 //Find Order By Id
 async function findOrderById(orderId)
 {
-    const order =await orders.findById(orderId).populate("user").populate({path:"orderItems",populate:"product"}).populate("shipAdress")
+    const order =await Order.findById(orderId).populate("user").populate({path:"orderItems",populate:"product"}).populate("shippingAddress")
     return order
 }
 
 //User Order History
 async function userOrderHistory(userId,orderId)
 {
-    const orders=await orders.find({user:userId}).populate("user").populate({path:"orderItems",populate:"product"}).sort({"createdAt":-1}).lean();
-    return orders
+    const orderList=await Order.find({user:userId}).populate("user").populate({path:"orderItems",populate:"product"}).sort({"createdAt":-1}).lean();
+    return orderList
 }
 //Delete Orders
 async function DeleteOrders(orderId)
@@ -112,25 +111,26 @@ async function DeleteOrders(orderId)
     if(!order){
         throw new Error("Order Not Found")
     }
-    await orders.findOrderByIdAndDelete(orderId)
+    await Order.findByIdAndDelete(orderId)
     return {message :" Order Deleted Successfully "}
 }
 async function getAllOrders(){
-    return await orders.find().populate("user").populate({path:"orderItems",populate:"product"})
+    return await Order.find().populate("user").populate({path:"orderItems",populate:"product"})
     .lean()
 }
 
 
-module.exports={
-    createorder,
-    placeOrder,
-    ShipOrder,
-    DeleiverOrder,
-    findOrderById,
-    userOrderHistory,
-    DeleteOrders,
-    getAllOrders,
-    ConfirmOrders
+export {
+  createorder,
+  placeOrder,
+  ShipOrder,
+  DeleiverOrder,
+  CancelOrders,
+  findOrderById,
+  userOrderHistory,
+  DeleteOrders,
+  getAllOrders,
+  ConfirmOrders
 }
 
 

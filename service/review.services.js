@@ -1,9 +1,9 @@
-import Review from '../models/review.model'
-import productservice from '../service/product.service.js'
+import Review from '../models/review.model.js'
+import { findProductById } from '../service/product.service.js'
 
 async function createReview(reqData) {
     
-    const product = await productservice.findProductById(reqData.productId);
+    const product = await findProductById(reqData.productId);
 
     if (!product) {
         throw new Error("Product not found.");
@@ -20,7 +20,7 @@ async function createReview(reqData) {
 }
 
 async function getAllReview(productId) {
-    const product = await productservice.findProductById(productId);
+    const product = await findProductById(productId);
 
     if (!product) {
         throw new Error("Product not found.");
@@ -28,3 +28,5 @@ async function getAllReview(productId) {
 
     return await Review.find({ product: productId }).populate("user");
 }
+
+export default { createReview, getAllReview }

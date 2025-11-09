@@ -1,6 +1,6 @@
-import mongoose from mongoose 
+import mongoose from 'mongoose' 
 
-const orderSchema=new Schema({
+const orderSchema=new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
@@ -9,8 +9,8 @@ const orderSchema=new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"orderitems"
     }],
-    shippingAddresss:{
-        type:mongoose.Schema.Types.ObejctId,
+    shippingAddress:{
+        type:mongoose.Schema.Types.ObjectId,
         ref:"addresses"
     },
 

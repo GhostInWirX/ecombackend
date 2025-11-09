@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const mondbURL="mongodb+srv://muqqadam:test123@cluster0.wswgsi9.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const mondbURL="mongodb+srv://bigboss:bigboss123@cluster0.uvb4vz7.mongodb.net/?appName=Cluster0"
 
 const connectdb=async()=>{
     try {

@@ -1,12 +1,12 @@
 import express from 'express'
 const router=express.Router()
-import product from '../controller/product.controller'
-import authenticate from '../middleware/authenticate'
+import product from '../controller/product.controller.js'
+import authenticate from '../middleware/authenticate.js'
 
-router.post("/",authenticate,product.createProduct);
-router.post("/creates",authenticate,product.createMultipleProducts)
-router.put("/:id",authenticate,product.updateproduct)
-router.delete("/:id",authenticate,product.deleteproduct)
+router.post("/", authenticate, product.createProduct);
+router.post("/creates", authenticate, product.createMultipleProducts)
+router.put("/:id", authenticate, product.updateProduct)
+router.delete("/:id", authenticate, product.deleteProduct)
 
-module.exports=router
+export default router
 

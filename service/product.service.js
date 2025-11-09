@@ -23,17 +23,16 @@ if(!secondLevel)
         level:2
     })
 }
-let thirdlevel=await Category.findOne({
-      name:reqData.secondLevelCategory,
+let thirdLevel = await Category.findOne({
+    name: reqData.thirdLevelCategory,
     parentCategory: secondLevel._id,
-
 })
-if(!thirdlevel)
+if(!thirdLevel)
 {
-    thirdlevel=new Category({
-        name:reqData.thirdLevelCategory,
-        parentCategory:secondLevel._id,
-        level:3
+    thirdLevel = new Category({
+        name: reqData.thirdLevelCategory,
+        parentCategory: secondLevel._id,
+        level: 3
     })
 }
 const product = new Product({
@@ -94,16 +93,15 @@ async function getAllProducts(reqQuery){
 }
 
 if(sizes){
-    const sizesSet = new Set(sizes);
+    const sizesSet = new Set(sizes.split(",").map(s => s.trim()));
     query = query.where("sizes.name").in([...sizesSet]);
 }
 
 if(minPrice && maxPrice){
     query = query.where('discountedPrice').gte(minPrice).lte(maxPrice);
 }
-if(minDiscount)
-{
-    query.where("DiscoundPresent").gt(minDiscount);
+if(minDiscount){
+    query = query.where("discountPercent").gt(minDiscount);
 }
 if(stock){
     if(stock=="in_stock"){
@@ -147,12 +145,11 @@ async function createMultipleroduct(products){
     }
 }
 
-module.exports={
-createProduct,
-deleteProduct,
-
-updateProduct,
-getAllProducts,
-findProductById,
-createMultipleroduct
+export {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  getAllProducts,
+  findProductById,
+  createMultipleroduct
 }

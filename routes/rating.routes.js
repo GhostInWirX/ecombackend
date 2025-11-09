@@ -3,11 +3,10 @@
 
 import express from 'express'
 const router=express.Router()
-import rating from '../controller/rating.controller'
-import authenticate from '../middleware/authenticate'
+import rating from '../controller/rating.controller.js'
+import authenticate from '../middleware/authenticate.js'
 
-router.post("/create",authenticate,rating.createrating);
-router.get("/:id",authenticate,rating.getProductRating)
+router.post("/create", authenticate, rating.createrating);
+router.get("/:id", authenticate, rating.getProductRating)
 
-
-module.exports=router
+export default router
